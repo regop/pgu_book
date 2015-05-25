@@ -46,3 +46,8 @@ where shall they be stored
 
 #### Go through every instruction and list what addressing mode is being used for each operand.
 A: OK
+
+#### What would the instruction movl _start, %eax do? Be specific, based on your knowledge of both addressing modes and the meaning of _start. How would this differ from the instruction movl $_start, %eax?
+A: When linking, _start means a memory address, like 0x10000000 for example.
+`movl _start, %eax` is direct addressing mode ,which means load eax with the value in  memory address _start.
+`movl $_start, %eax` is immediate mode, which means load eax with the value _start,0x10000000,in this case.
