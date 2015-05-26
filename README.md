@@ -9,3 +9,13 @@
 `review.md`里面记录是课后题的解答，不保证正确。
 `review` 文件夹存放课后题的代码
 
+## 后记
+----
+第61页，有个错误。
+
+```C
+movl 8(%ebp), %ebx #put first argument in %eax
+
+```
+实际上，应该是 `put first argument in %ebx`
+
