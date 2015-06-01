@@ -38,7 +38,9 @@
 _start:
 movl %esp, %ebp
 subl $ST_SIZE_RESERVE, %esp
+
 open_files:
+
 open_fd_in:
 movl $SYS_OPEN, %eax
 movl ST_ARGV_1(%ebp), %ebx
@@ -48,6 +50,7 @@ int $LINUX_SYSCALL
 
 store_fd_in:
 movl %eax, ST_FD_IN(%ebp)
+
 open_fd_out:
 movl $SYS_OPEN, %eax
 movl ST_ARGV_2(%ebp), %ebx
@@ -55,9 +58,12 @@ movl $O_CREAT_WRONLY_TRUNC, %ecx
 movl $0666, %edx
 int $LINUX_SYSCALL
 
+store_fd_out:
+movl %eax, ST_FD_OUT(%ebp)
+
 read_loop_begin:
 movl $SYS_READ, %eax
-movl ST_FD_IN(%ebp), %eax
+movl ST_FD_IN(%ebp), %ebx
 movl $BUFFER_DATA, %ecx
 movl $BUFFER_SIZE, %edx
 int $LINUX_SYSCALL
@@ -125,8 +131,3 @@ end_convert_loop:
 movl  %ebp, %esp
 popl  %ebp
 ret
-
-
-
-
-

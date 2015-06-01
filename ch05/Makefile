@@ -6,4 +6,4 @@ toupper.o: toupper.S
 	as $(ASFLAG) toupper.S -o toupper.o
 
 clean:
-	@rm -rvf toupper.o toupper
+	@rm -rvf toupper.o toupper output.txt
