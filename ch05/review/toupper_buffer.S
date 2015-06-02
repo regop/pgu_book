@@ -18,7 +18,7 @@
 .equ NUMBER_ARGUMENTS, 2
 
 .section .bss
-.equ BUFFER_SIZE, 500
+.equ BUFFER_SIZE, 512
 .lcomm BUFFER_DATA, BUFFER_SIZE
 
 .section .text

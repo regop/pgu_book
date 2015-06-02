@@ -19,7 +19,11 @@
 
 .section .bss
 .equ BUFFER_SIZE, 500
+.equ FD_SIZE, 4
+
 .lcomm BUFFER_DATA, BUFFER_SIZE
+.lcomm FD_IN, FD_SIZE
+.lcomm FD_OUT, FD_SIZE
 
 .section .text
 .equ ST_SIZE_RESERVE, 8
@@ -46,7 +50,8 @@ movl $0666, %edx
 int $LINUX_SYSCALL
 
 store_fd_in:
-movl %eax, ST_FD_IN(%ebp)
+movl $FD_IN, %edx
+movl %eax, (%edx)
 
 open_fd_out:
 movl $SYS_OPEN, %eax
@@ -56,11 +61,12 @@ movl $0666, %edx
 int $LINUX_SYSCALL
 
 store_fd_out:
-movl %eax, ST_FD_OUT(%ebp)
+movl $FD_OUT, %edx
+movl %eax, (%edx)
 
 read_loop_begin:
 movl $SYS_READ, %eax
-movl ST_FD_IN(%ebp), %ebx
+movl FD_IN, %ebx
 movl $BUFFER_DATA, %ecx
 movl $BUFFER_SIZE, %edx
 int $LINUX_SYSCALL
@@ -77,18 +83,18 @@ addl $4, %esp
 
 movl %eax, %edx
 movl $SYS_WRITE, %eax
-movl ST_FD_OUT(%ebp), %ebx
+movl FD_OUT, %ebx
 movl $BUFFER_DATA, %ecx
 int $LINUX_SYSCALL
 jmp read_loop_begin
 
 end_loop:
 movl $SYS_CLOSE, %eax
-movl ST_FD_OUT(%ebp), %ebx
+movl FD_OUT, %ebx
 int $LINUX_SYSCALL
 
 movl $SYS_CLOSE, %eax
-movl ST_FD_IN(%ebp), %ebx
+movl FD_IN, %ebx
 int $LINUX_SYSCALL
 
 movl $SYS_EXIT, %eax

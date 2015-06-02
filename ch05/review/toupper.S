@@ -6,16 +6,12 @@
 .equ SYS_CLOSE, 6
 .equ SYS_EXIT, 1
 
-.equ O_RDONLY, 0
-.equ O_CREAT_WRONLY_TRUNC, 03101
-
 .equ STDIN, 0
 .equ STDOUT,1
 .equ STDERR,2
 
 .equ LINUX_SYSCALL, 0x80
 .equ END_OF_FILE, 0
-.equ NUMBER_ARGUMENTS, 2
 
 .section .bss
 .equ BUFFER_SIZE, 500
@@ -25,10 +21,6 @@
 .equ ST_SIZE_RESERVE, 8
 .equ ST_FD_IN, -4
 .equ ST_FD_OUT, -8
-.equ ST_ARGC, 0
-.equ ST_ARGV_0, 4
-.equ ST_ARGV_1, 8
-.equ ST_ARGV_2, 12
 
 .global _start
 
@@ -39,21 +31,13 @@ subl $ST_SIZE_RESERVE, %esp
 open_files:
 
 open_fd_in:
-movl $SYS_OPEN, %eax
-movl ST_ARGV_1(%ebp), %ebx
-movl $O_RDONLY, %ecx
-movl $0666, %edx
-int $LINUX_SYSCALL
+movl $STDIN, %eax 
 
 store_fd_in:
 movl %eax, ST_FD_IN(%ebp)
 
 open_fd_out:
-movl $SYS_OPEN, %eax
-movl ST_ARGV_2(%ebp), %ebx
-movl $O_CREAT_WRONLY_TRUNC, %ecx
-movl $0666, %edx
-int $LINUX_SYSCALL
+movl $STDOUT, %eax
 
 store_fd_out:
 movl %eax, ST_FD_OUT(%ebp)
