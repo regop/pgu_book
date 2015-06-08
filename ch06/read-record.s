@@ -12,13 +12,14 @@ pushl %ebp
 movl %esp, %ebp
 
 pushl %ebx
-movl ST_FILEDES($ebp), %ebx
+movl ST_FILEDES(%ebp), %ebx
 movl ST_READ_BUFFER(%ebp), %ecx
 movl $RECORD_SIZE, %edx
 movl $SYS_READ, %eax
 int $LINUX_SYSCALL
 
 popl %ebx
-movl %ebx, %esp
+
+movl %ebp, %esp
 popl %ebp
 ret
