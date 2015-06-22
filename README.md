@@ -14,6 +14,9 @@
 
 ## 后记
 ----
+###勘误
+
+###61页
 第61页，有个错误。
 
 ```C
@@ -22,3 +25,10 @@ movl 8(%ebp), %ebx #put first argument in %eax
 ```
 实际上，应该是 `put first argument in %ebx`
 
+###125页
+
+```C
+jl  continue_processing
+```
+应该是 `jg  continue_processing
+`
