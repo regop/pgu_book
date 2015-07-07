@@ -1,6 +1,5 @@
 ASFLAG= --gstabs
 
-all: helloworld-nolib helloworld-lib
 
 helloworld-nolib: helloworld-nolib.o
 	ld $^ -o $@
@@ -14,5 +13,12 @@ helloworld-lib: helloworld-lib.o
 helloworld-lib.o: helloworld-lib.s
 	as $(ASFLAG) $^ -o $@
 
+
+printf-example: printf-example.o
+	ld $^ -o $@ -lc -dynamic-linker /lib/ld-linux.so.2
+
+printf-example.o: printf-example.s
+	as $(ASFLAG) $^ -o $@
+
 clean:
-	@rm -rfv *.o helloworld-nolib helloworld-lib
+	@rm -rfv *.o helloworld-nolib helloworld-lib printf-example
